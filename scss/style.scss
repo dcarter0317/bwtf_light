@@ -1,5 +1,5 @@
 // ****** PARTIALS ******
-// @import "libs";
+@import "libs";
 
 
 
@@ -263,8 +263,8 @@ $button-padding-large: 15px 30px;
 
 
 // BREAKPOINTS AND DISPLAYS
-$med-device: 28.125em;
-$large-device: 58.125em;
+$med-device: 55em; // 880px (16px x 55)
+$large-device: 75em; // 1200px (16px 75)
 
 
 // LAYOUT VARIABLES
@@ -778,61 +778,136 @@ form {
   }
 }
 
-// ****** LAYOUT ****** //
-body {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto 50px;
-  grid-row-gap: 20px;
+// ****** LAYOUTS ****** //
+// KEEP THE LAYOUT SECTION AT THE END OF THE PAGE
+
+/* --------------------------------------
+ BASIC RESPONSIVE LAYOUT FOR ALL BROWSERS
+-----------------------------------------*/
+.page {
+  max-width: 50em;
+  margin: 0 auto;
 }
-.header {
 
-  .site-logo {
-    max-width: 200px;
-    margin: 0 auto;
+
+/* --------------------------------------
+ CSS GRID LAYOUT FOR MODERN BROWSERS
+-----------------------------------------*/
+
+@supports(grid-area: auto) {
+  .page {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 50px;
+    grid-row-gap: 10px;
+    grid-template-areas:
+                      "header"
+                      "content"
+                      "footer"
   }
+  .header {
+   background: darken(chocolate, 15%);
+   grid-area: header;
 
-  .hero-unit {
-     background: url('/img/hero-unit.jpg') 0 0 no-repeat;
-     background-size: cover;
-     height: 30vh;
-     width: 100vw;
-   }
+    .site-logo {
+      max-width: 200px;
+      margin: 0 auto;
+    }
 
-   nav {
-     ul {
-       display: grid;
-       grid-template-columns: 1fr;
-       font-weight: 700;
-       text-align: center;
+    .hero-unit {
+       background: url('/img/hero-unit.jpg') 0 0 no-repeat;
+       background-size: cover;
+       height: 30vh;
+       width: 100vw;
      }
-     li {
-       background: $red;
-       padding: .5em;
-       border-bottom: 1px solid darken($white,10%);
 
-       &:last-child {
-         border: none;
+     nav {
+       ul {
+         display: grid;
+         grid-template-columns: 1fr;
+         font-weight: 700;
+         text-align: center;
+       }
+       li {
+         background: $red;
+         padding: .5em;
+         border-bottom: 1px solid darken($white,10%);
+
+         &:last-child {
+           border: none;
+         }
+       }
+       a, a:visited, a:focus {
+         color: #fff;
+         text-transform: uppercase;
        }
      }
-     a, a:visited, a:focus {
-       color: #fff;
-       text-transform: uppercase;
-     }
-   }
-}
-.content {
-  display: grid;
-  grid-row-gap: $layout-grid-row-gap;
+  }
+  .content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-row: auto;
+    grid-row-gap: 10px;
+    grid-area: content;
+    grid-template-areas:
+                         "main"
+                         "sidebar"
+  }
+
+  .main {
+    background: $blue;
+    grid-area: main;
+    grid-column: 1 / 2;
+    grid-row: auto;
+  }
+  .sidebar {
+    background: coral;
+    grid-area: sidebar;
+    grid-column: 1 / 2;
+    grid-row: auto;
+  }
+
+  .footer {
+    background: green;
+    grid-area: footer;
+  }
+
 }
 
-.main {
-  background: $blue;
-}
-.sidebar {
-  background: lighten($blue, 10%);
+/*------------------------
+ TABLETS and MED DEVICES
+------------------------*/
+@include tablet {
+  .page {
+    // background: lime;
+    grid-row-gap: $layout-grid-row-gap;
+  }
+
+
+  .content {
+    grid-template-columns: 75% 25%;
+    grid-template-areas:
+                       "main sidebar"
+  }
+  .main {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  .sidebar {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2 ;
+  }
+  .footer: {
+    display: grid;
+  }
 }
 
-.footer {
-  background: $orange;
+/*------------------------
+ DESKTOPS and LARGE DEVICES
+------------------------*/
+@include desktop {
+  // .page {
+  //   background: coral;
+  // }
 }
