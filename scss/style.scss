@@ -264,14 +264,17 @@ $button-padding-large: 15px 30px;
 
 
 // BREAKPOINTS AND DISPLAYS
-$med-device: 55em; // 880px (16px x 55)
-$large-device: 75em; // 1200px (16px 75)
+$med-device: 786px;
+$large-device: 1180px;
 
 
 // LAYOUT VARIABLES
 $layout-grid-row-gap: 20px;
 $layout-grid-column-gap: 20px;
 $layout-grid-gap: 20px;
+$sidebar-grid-row-gap: 10px;
+$sidebar-grid-column-gap: 10px;
+$sidebar-grid-gap: 10px;
 
 
 // ****** TYPOGRAPHY ****** //
@@ -489,21 +492,150 @@ a, a:visited {
 
 // ****** MODULES ****** //
 
+.featured-section-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: 100%;
+
+  .featured-section-item {
+    @include gradient-overlay('media-block-large-bg.jpg');
+      color: $white;
+      font-weight: 700;
+      background-size: cover;
+      width: calc(100% - 10px);
+      height: 40vh;
+      max-width: 1024px;
+      max-height: 570px;
+      position: relative;
+
+      .featured-section-eyebrow,
+      .featured-section-title,
+      .featured-section-cta {
+        position: absolute;
+        left: 10px;
+      }
 
 
-@include tablet {
-.media-block-container  {
+     .featured-section-eyebrow,
+     .featured-section-cta, {
+       @include background-colors;
+     }
 
+     .featured-section-eyebrow {
+       @include background-colors;
+        bottom: 150px;
+        left: 10px;
+        padding: .25rem .5rem;
+     }
+     .featured-section-title {
+       font-size: 1.4rem;
+       max-width: 75%;
+       bottom: 80px;
+     }
+     .featured-section-cta {
+       @include background-colors;
+       display: inline-block;
+       text-transform: uppercase;
+       padding: .5rem 1rem;
+       bottom: 40px;
+
+
+       a:visited, a:focus {
+         color: $white;
+       }
+     }
+  }
 }
 
-.featured-section-container {
-  .featured-section {
 
-    .featured-section-title {
-      max-width: 55%;
-     }
-   }
- }
+.media-block-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 10px;
+}
+.media-block {
+  @include background-colors;
+  @include text-colors;
+  @include gradient-overlay('media-block-small-bg.jpg');
+  color: $white;
+  font-weight: 700;
+  margin-top: 22px;
+  justify-self: center;
+  position: relative;
+
+  .media-block-eyebrow,
+  .media-block-title,
+  .media-block-cta {
+    position: absolute;
+    left: 15px;
+  }
+
+  .media-block-eyebrow,
+  .media-block-cta, {
+    @include background-colors;
+  }
+
+  .media-block-eyebrow {
+    font-size: .8rem;
+    padding: .3rem .6rem;
+    top: 15px;
+    left: 15px;
+  }
+
+  .media-block-title {
+    font-size: .9rem;
+    bottom: 55px;
+  }
+
+  .media-block-cta {
+    text-transform: uppercase;
+    font-size: .8em;
+    bottom: 20px;
+    padding: .5rem;
+    color: $white;
+
+    a:visited,
+    a:focus {
+      color: $white;
+    }
+  }
+
+  &.med {
+    @include gradient-overlay('media-block-med-bg.jpg');
+     width: 100%;
+     max-width: 390px;
+     height: 220px;
+
+    .media-block-eyebrow {
+      top: -25px;
+      left: 0;
+      right: 0;
+      padding: 0;
+
+      p {
+        padding-left: 10px;
+      }
+    }
+
+    .media-block-title {
+      font-size: 1rem;
+      padding-right: 6rem;
+    }
+  }
+}
+@include tablet {
+  .media-block-container {
+    grid-template-columns: repeat(2, 390px);
+    grid-gap: 20px;
+  }
+}
+@include desktop {
+  .media-block-container {
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 20px;
+  }
 }
 
 
@@ -521,10 +653,12 @@ a, a:visited {
   justify-content: center;
 }
 .sidebar-widget {
-  display: flex;
-  flex-direction: column;
-  max-width: 235px;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-row-gap: 20px;
 }
+
+
 .sidebar-widget-image {
    max-width: 100%;
    margin: 0 auto;
@@ -556,10 +690,10 @@ a, a:visited {
 @include tablet {
   .sidebar-widget-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
-    width: 32em;
+    max-width: 17.5em;
   }
+
 }
 
 // CATERGORY LISTS
@@ -659,28 +793,15 @@ form {
 // ****** LAYOUTS ****** //
 // KEEP THE LAYOUT SECTION AT THE END OF THE PAGE
 
-/* --------------------------------------
- BASIC RESPONSIVE LAYOUT FOR ALL BROWSERS
------------------------------------------*/
-.page {
-  max-width: 50em;
-  margin: 0 auto;
-}
 
-
-/* --------------------------------------
- CSS GRID LAYOUT FOR MODERN BROWSERS
------------------------------------------*/
-
-//@supports(grid-area: auto) {
   .page {
-    max-width: none;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 530px auto 100px;
+    grid-template-rows: 530px auto auto 100px;
     grid-row-gap: 10px;
     grid-template-areas:
                       "header"
+                      "masthead"
                       "content"
                       "footer"
   }
@@ -702,7 +823,7 @@ form {
      nav {
        ul {
          display: grid;
-         grid-template-columns: 1fr;
+         grid-template-columns: 100%;
          font-weight: 700;
          text-align: center;
        }
@@ -716,11 +837,22 @@ form {
          }
        }
        a, a:visited, a:focus {
-         color: #fff;
+         color: $white;
          text-transform: uppercase;
        }
      }
   }
+
+  .masthead {
+    grid-area: masthead;
+  }
+
+  .rotating-ad-banner,
+  .featured-section {
+    width: calc(100% - 10px);
+  }
+
+
   .content {
     display: grid;
     grid-template-columns: 1fr;
@@ -731,12 +863,18 @@ form {
                          "main"
                          "sidebar"
   }
-
   .main {
     grid-area: main;
     grid-column: 1 / 2;
     grid-row: auto;
   }
+
+  .copy-container {
+    margin: 40px auto;
+    width: calc(100% - 10px);
+
+  }
+
   .sidebar {
     grid-area: sidebar;
     grid-column: 1 / 2;
@@ -755,7 +893,7 @@ form {
     }
     .footer-social-media-icons {
      display: flex;
-     max-width: 180px;
+     max-width: 160px;
      margin: 0 auto;
      justify-content: space-between;
       .footer-icon img {
@@ -763,31 +901,64 @@ form {
       }
     }
   }
-// } end @support  TODO: doesn't work for tablet fix issue
 
 /*------------------------
  TABLETS and MED DEVICES
 ------------------------*/
 @include tablet {
   .page {
-    // background: lime;
     grid-row-gap: $layout-grid-row-gap;
   }
 
+
   .content {
-    grid-template-columns: 75% 25%;
+    grid-template-columns: 1fr 25%;
+    grid-gap: $layout-grid-gap;
     grid-template-areas:
                        "main sidebar"
   }
+
   .main {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
+    max-width: 900px;
   }
+
+  .copy-container {
+    margin: 0 auto 40px auto;
+  }
+
+  .social-media-widget-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: $layout-grid-gap;
+    margin: 20px 0;
+  }
+
   .sidebar {
     grid-column: 2 / 3;
-    grid-row: 1 / 2 ;
+    grid-row: 1 / 2;
+    max-width: 255px;
   }
+
   .footer {
+    display: grid;
+    grid-template-columns: 2fr 20%;
+    align-items: center;
+
+
+    .copyright {
+      grid-area: copyright;
+      grid-column: 1 / 2;
+      font-size: 1rem;
+      text-align: left;
+      margin: 10px 0 0 10px;
+    }
+    .footer-social-media-icons {
+      grid-area: footer-social-media-icons;
+      grid-column: 2 / 3;
+    }
+    grid-template-areas: "copyright footer-social-media-icons"
   }
 }
 
@@ -795,7 +966,4 @@ form {
  DESKTOPS and LARGE DEVICES
 ------------------------*/
 @include desktop {
-  // .page {
-  //   background: coral;
-  // }
 }
