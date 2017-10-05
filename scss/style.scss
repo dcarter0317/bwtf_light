@@ -264,8 +264,8 @@ $button-padding-large: 15px 30px;
 
 
 // BREAKPOINTS AND DISPLAYS
-$med-device: 786px;
-$large-device: 1180px;
+$med-device: 700px;
+$large-device: 1024px;
 
 
 // LAYOUT VARIABLES
@@ -504,9 +504,9 @@ a, a:visited {
       font-weight: 700;
       background-size: cover;
       width: calc(100% - 10px);
-      height: 40vh;
-      max-width: 1024px;
-      max-height: 570px;
+      // height: 40vh;
+      // max-width: 1024px;
+      // max-height: 570px;
       position: relative;
 
       .featured-section-eyebrow,
@@ -627,15 +627,11 @@ a, a:visited {
 @include tablet {
   .media-block-container {
     grid-template-columns: repeat(2, 390px);
-    grid-gap: 20px;
+    grid-gap: 10px;
   }
 }
 @include desktop {
-  .media-block-container {
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 20px;
-  }
+
 }
 
 
@@ -797,10 +793,12 @@ form {
   .page {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 530px auto auto 100px;
+    grid-template-rows: repeat(5, auto) 100px;
     grid-row-gap: 10px;
     grid-template-areas:
                       "header"
+                      "hero-unit"
+                      "nav"
                       "masthead"
                       "content"
                       "footer"
@@ -812,36 +810,38 @@ form {
       max-width: 200px;
       margin: .4em auto;
     }
-
-    .hero-unit {
-       background: url('/img/hero-unit.jpg') 0 0 no-repeat;
-       background-size: cover;
-       height: 30vh;
-       width: 100vw;
-     }
-
-     nav {
-       ul {
-         display: grid;
-         grid-template-columns: 100%;
-         font-weight: 700;
-         text-align: center;
-       }
-       li {
-         background: $red;
-         padding: .5em;
-         border-bottom: 1px solid darken($white,10%);
-
-         &:last-child {
-           border: none;
-         }
-       }
-       a, a:visited, a:focus {
-         color: $white;
-         text-transform: uppercase;
-       }
-     }
   }
+
+  .hero-unit {
+     grid-area: hero-unit;
+     background: url('/img/hero-unit.jpg') 0 0 no-repeat;
+     background-size: cover;
+     grid-row: 1 / 2;
+   }
+
+   nav {
+     ul {
+       grid-area: nav;
+       display: flex;
+       flex-direction: column;
+       justify-content: flex-end;
+       background: $red;
+       font-weight: 700;
+       text-align: center;
+     }
+     li {
+       padding: 1em;
+       border-bottom: 1px solid darken($white,10%);
+
+       &:last-child {
+         border: none;
+       }
+     }
+     a, a:visited, a:focus {
+       color: $white;
+       text-transform: uppercase;
+     }
+   }
 
   .masthead {
     grid-area: masthead;
@@ -850,6 +850,15 @@ form {
   .rotating-ad-banner,
   .featured-section {
     width: calc(100% - 10px);
+    grid-column: 1 / 3;
+  }
+
+  .rotating-ad-banner {
+    grid-area: rotating-ad-banner;
+
+  }
+  .featured-section {
+    grid-area: featured-section;
   }
 
 
@@ -872,7 +881,6 @@ form {
   .copy-container {
     margin: 40px auto;
     width: calc(100% - 10px);
-
   }
 
   .sidebar {
@@ -910,9 +918,16 @@ form {
     grid-row-gap: $layout-grid-row-gap;
   }
 
+ .hero-unit {
+      height: calc(100vh - 500px);
+ }
+
+  nav {
+              // flex-direction: row;
+  }
 
   .content {
-    grid-template-columns: 1fr 25%;
+    grid-template-columns: 2fr 1fr;
     grid-gap: $layout-grid-gap;
     grid-template-areas:
                        "main sidebar"
@@ -921,7 +936,7 @@ form {
   .main {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
-    max-width: 900px;
+    // max-width: 900px;
   }
 
   .copy-container {
@@ -930,7 +945,7 @@ form {
 
   .social-media-widget-container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: $layout-grid-gap;
     margin: 20px 0;
   }
